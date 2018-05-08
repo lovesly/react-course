@@ -4,51 +4,61 @@ console.log('App.js is running');
 const app = {
     title: 'This is JSX from app.js!',
     subTitle: 'This is come info',
-    options: ['one', 'two', 'three'],
-}
-const template = (
-    <div>
-        <h1>{ app.title }</h1>
-        { app.subTitle && <p>{app.subTitle}</p> }
-        <p>{ (app.options && app.options.length > 0) ? 'Here are your options' : 'No options' }</p> 
-        <ol>
-            <li>Item one</li>
-            <li>Item two</li>
-            <li>Item three</li>
-        </ol>
-    </div>
-);
+    options: [],
+};
 
-let count = 0;
-const someId = 'someId';
-const addOne = () => {
-    count++;
-    // in this way, looks like everytime clicking the btn you are creating a new template
-    // virtual dom? not re-rendering everything
-    // diff -> only changed parts.
-    renderCounterApp();
-}
-const minusOne = () => {
-    count--;
-    renderCounterApp();    
-}
-const reset = () => {
-    count = 0;
-    renderCounterApp();    
-}
+const onFormSubmit = (event) => {
+    // event is a proxy here
+    // contains a SyntheticEvent target
+    // interesting
+    event.preventDefault();
+    const option = event.target.elements.option.value;
+    if (option) {
+        app.options.push(option);
+        event.target.elements.option.value = '';
+        renderList();
+    }
+};
+
+const onRemoveAll = () => {
+    app.options = [];
+    renderList();
+};
+
+const onMakeDecision = () => {
+    const randomNum = Math.floor(Math.random() * app.options.length);
+    const option = app.options[randomNum];
+    alert(option);
+};
 
 const appRoot = document.getElementById('app');
 
-const renderCounterApp = () => {
-    const template2 = (
+const renderList = () => {
+    const template = (
         <div>
-            <h1>Count: { count }</h1>
-            <button id={someId} className="button" onClick={ addOne }>+1</button>
-            <button className="button" onClick={ minusOne }>-1</button>
-            <button className="button" onClick={ reset }>reset</button>
+            <h1>{ app.title }</h1>
+            { app.subTitle && <p>{app.subTitle}</p> }
+            <p>{ (app.options && app.options.length > 0) ? 'Here are your options' : 'No options' }</p> 
+            <button disabled={ app.options.length===0 } onClick={ onMakeDecision }>What should I do?</button>
+            <button onClick={ onRemoveAll }>Remove all</button>
+            <ol>
+                {
+                    app.options.map(option => {
+                        return <li key={ option }>Item: { option }</li>
+                    })
+                }
+            </ol>
+            <form onSubmit={ onFormSubmit }>
+                <input type="text" name="option"/>
+                <button>Add</button>
+            </form>
         </div>
     );
-    ReactDOM.render(template2, appRoot);    
+    ReactDOM.render(template, appRoot);
 };
 
-renderCounterApp();
+renderList();
+
+// {
+//     [<p key="1">a</p>, <p key="2">b</p>, <p key="3">c</p>]
+// }

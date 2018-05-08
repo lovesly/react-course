@@ -47,38 +47,53 @@ var template = React.createElement(
     )
 );
 
-var user = {
-    name: 'ZZ',
-    age: 27,
-    location: 'China'
+var count = 0;
+var someId = 'someId';
+var addOne = function addOne() {
+    count++;
+    // in this way, looks like everytime clicking the btn you are creating a new template
+    // virtual dom? not re-rendering everything
+    // diff -> only changed parts.
+    renderCounterApp();
+};
+var minusOne = function minusOne() {
+    count--;
+    renderCounterApp();
+};
+var reset = function reset() {
+    count = 0;
+    renderCounterApp();
 };
 
-function getLocation(loc) {
-    if (loc) {
-        return React.createElement(
-            'p',
-            null,
-            'Location: ',
-            loc
-        );
-    }
-}
-
-var template2 = React.createElement(
-    'div',
-    null,
-    React.createElement(
-        'h1',
-        null,
-        user.name ? user.name + '!' : 'Anonymous'
-    ),
-    user.age && user.age >= 18 && React.createElement(
-        'p',
-        null,
-        'Age: ',
-        user.age
-    ),
-    getLocation(user.location)
-);
 var appRoot = document.getElementById('app');
-ReactDOM.render(template, appRoot);
+
+var renderCounterApp = function renderCounterApp() {
+    var template2 = React.createElement(
+        'div',
+        null,
+        React.createElement(
+            'h1',
+            null,
+            'Count: ',
+            count
+        ),
+        React.createElement(
+            'button',
+            { id: someId, className: 'button', onClick: addOne },
+            '+1'
+        ),
+        React.createElement(
+            'button',
+            { className: 'button', onClick: minusOne },
+            '-1'
+        ),
+        React.createElement(
+            'button',
+            { className: 'button', onClick: reset },
+            'reset'
+        )
+    );
+    ReactDOM.render(template2, appRoot);
+};
+
+renderCounterApp();

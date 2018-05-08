@@ -19,24 +19,36 @@ const template = (
     </div>
 );
 
-let user = {
-    name: 'ZZ',
-    age: 27,
-    location: 'China'
-};
-
-function getLocation(loc) {
-    if (loc) {
-        return <p>Location: {loc}</p>;
-    }
+let count = 0;
+const someId = 'someId';
+const addOne = () => {
+    count++;
+    // in this way, looks like everytime clicking the btn you are creating a new template
+    // virtual dom? not re-rendering everything
+    // diff -> only changed parts.
+    renderCounterApp();
+}
+const minusOne = () => {
+    count--;
+    renderCounterApp();    
+}
+const reset = () => {
+    count = 0;
+    renderCounterApp();    
 }
 
-const template2 = (
-    <div>
-        <h1>{ user.name ? user.name + '!' : 'Anonymous' }</h1>
-        { user.age && user.age >= 18 && <p>Age: { user.age }</p> }
-        { getLocation(user.location) }
-    </div>
-);
 const appRoot = document.getElementById('app');
-ReactDOM.render(template, appRoot);
+
+const renderCounterApp = () => {
+    const template2 = (
+        <div>
+            <h1>Count: { count }</h1>
+            <button id={someId} className="button" onClick={ addOne }>+1</button>
+            <button className="button" onClick={ minusOne }>-1</button>
+            <button className="button" onClick={ reset }>reset</button>
+        </div>
+    );
+    ReactDOM.render(template2, appRoot);    
+};
+
+renderCounterApp();

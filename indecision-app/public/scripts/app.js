@@ -4,7 +4,7 @@ console.log('App.js is running');
 
 // JSX - JavaScript XML
 var app = {
-    title: 'This is JSX from app.js!',
+    title: 'This is JSX from app.js!å∂',
     subTitle: 'This is come info',
     options: []
 };

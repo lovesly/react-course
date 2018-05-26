@@ -40,8 +40,15 @@ class Action extends React.Component {
 }
 
 class Options extends React.Component {
-    handleRemoveAll() {
+    // override for this binding
+    constructor(props) {
+        super(props);
+        this.handleRemoveAll = this.handleRemoveAll.bind(this);
+    }
 
+    handleRemoveAll() {
+        // bind could work, but everytime re-render, it will bind again
+        console.log(this.props.options);
     }
     render() {
         const options = this.props.options;

@@ -52,6 +52,11 @@ var IndecisionApp = function (_React$Component) {
     }, {
         key: 'handleAddOption',
         value: function handleAddOption(option) {
+            if (!option) {
+                return 'Enter valid value to add item';
+            } else if (this.state.options.indexOf(option) > -1) {
+                return 'This option already exists';
+            }
             this.setState(function (prevState) {
                 return {
                     options: [].concat(_toConsumableArray(prevState.options), [option])
@@ -218,6 +223,9 @@ var AddOption = function (_React$Component6) {
         var _this6 = _possibleConstructorReturn(this, (AddOption.__proto__ || Object.getPrototypeOf(AddOption)).call(this, props));
 
         _this6.handleSubmit = _this6.handleSubmit.bind(_this6);
+        _this6.state = {
+            error: undefined
+        };
         return _this6;
     }
 
@@ -226,9 +234,15 @@ var AddOption = function (_React$Component6) {
         value: function handleSubmit(event) {
             event.preventDefault();
             var option = event.target.elements.option.value.trim();
-            if (option) {
-                this.props.handleAddOption(option);
-            }
+            var error = this.props.handleAddOption(option);
+            // if (option) {
+            //     this.props.handleAddOption(option);
+            // }
+            this.setState(function () {
+                return {
+                    error: error
+                };
+            });
             event.target.elements.option.value = '';
         }
     }, {
@@ -237,6 +251,11 @@ var AddOption = function (_React$Component6) {
             return React.createElement(
                 'div',
                 null,
+                this.state.error && React.createElement(
+                    'p',
+                    null,
+                    this.state.error
+                ),
                 React.createElement(
                     'form',
                     { onSubmit: this.handleSubmit },

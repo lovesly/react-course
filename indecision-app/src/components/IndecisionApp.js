@@ -5,17 +5,40 @@ import Action from './Action';
 import Options from './Options';
 
 class IndecisionApp extends React.Component {
-    constructor(props) {
-        super(props);
-        // why do we need to bind this?
-        this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
-        this.handlePick = this.handlePick.bind(this);
-        this.handleAddOption = this.handleAddOption.bind(this);
-        this.handleDeleteOption = this.handleDeleteOption.bind(this);
-        this.state = {
-            options: props.options,
-        }
+    state = {
+        // options: props.options, // props not defined?? then how can we pass in props
+        // what I found is, when this line is being executed, there is no props.
+        options: [],
     }
+
+    // handleDeleteOptions
+    handleDeleteOptions = () => {
+        this.setState(() => ({ options: [] }));
+    }
+
+    handleDeleteOption = (option) => {
+        this.setState((prevState) => ({
+            options: prevState.options.filter((op) => op !== option)
+        }));
+    }
+
+    handlePick = () => {
+        const randomNum = ~~(Math.random() * this.state.options.length);
+        const option = this.state.options[randomNum];
+        alert(option);
+    }
+
+    // array.push not working, because it doesn't return a new array
+    // interesting
+    handleAddOption = (option) => {
+        if (!option) {
+            return 'Enter valid value to add item';
+        } else if (this.state.options.indexOf(option) > -1) {
+            return 'This option already exists';
+        }
+        this.setState((prevState) => ({ options: [...prevState.options, option] }));
+    }
+
     // react component lifecycles
     componentDidMount() {
         try {
@@ -38,34 +61,7 @@ class IndecisionApp extends React.Component {
     componentWillUnmount() {
         console.log("componentWillUnmmount");
     }
-    // handleDeleteOptions
-    handleDeleteOptions() {
-        this.setState(() => ({ options: [] }));
-    }
-
-    handleDeleteOption(option) {
-        this.setState((prevState) => ({
-            options: prevState.options.filter((op) => op !== option)
-        }));
-    }
-
-    handlePick() {
-        const randomNum = ~~(Math.random() * this.state.options.length);
-        const option = this.state.options[randomNum];
-        alert(option);
-    }
-
-    // array.push not working, because it doesn't return a new array
-    // interesting
-    handleAddOption(option) {
-        if (!option) {
-            return 'Enter valid value to add item';
-        } else if (this.state.options.indexOf(option) > -1) {
-            return 'This option already exists';
-        }
-        this.setState((prevState) => ({ options: [...prevState.options, option] }));
-    }
-
+    
     render() {
         const title = 'Indecision';
         const subTitle = 'Put your life in the hands of a computer';

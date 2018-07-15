@@ -3,12 +3,15 @@ import AddOption from './AddOption';
 import Header from './Header';
 import Action from './Action';
 import Options from './Options';
+import OptionModal from './OptionModal';
 
 class IndecisionApp extends React.Component {
     state = {
         // options: props.options, // props not defined?? then how can we pass in props
-        // what I found is, when this line is being executed, there is no props.
-        options: [],
+        // use constructor or this.props
+        // but this.props.options works. wtf.
+        options: this.props.options,
+        selectedOption: undefined
     }
 
     // handleDeleteOptions
@@ -25,7 +28,7 @@ class IndecisionApp extends React.Component {
     handlePick = () => {
         const randomNum = ~~(Math.random() * this.state.options.length);
         const option = this.state.options[randomNum];
-        alert(option);
+        this.setState(() => ({ selectedOption: option }));
     }
 
     // array.push not working, because it doesn't return a new array
@@ -37,6 +40,10 @@ class IndecisionApp extends React.Component {
             return 'This option already exists';
         }
         this.setState((prevState) => ({ options: [...prevState.options, option] }));
+    }
+
+    handleCloseModal = () => {
+        this.setState(() => ({ selectedOption: undefined }));
     }
 
     // react component lifecycles
@@ -68,16 +75,26 @@ class IndecisionApp extends React.Component {
         return (
             <div>
                 <Header title={ title } subTitle={ subTitle }/>
-                <Action 
-                    hasOptions={ this.state.options.length > 0 }
-                    handlePick={ this.handlePick }
+                <div className="container">
+                    <Action 
+                        hasOptions={ this.state.options.length > 0 }
+                        handlePick={ this.handlePick }
+                    />
+                    <div className="widget">
+                        <Options 
+                            options={ this.state.options }
+                            handleDeleteOptions={ this.handleDeleteOptions }
+                            handleDeleteOption= { this.handleDeleteOption }
+                        />
+                        <div className="input-container">
+                            <AddOption handleAddOption={ this.handleAddOption }/>
+                        </div>
+                    </div>
+                </div>
+                <OptionModal 
+                    selectedOption={ this.state.selectedOption }
+                    handleCloseModal={ this.handleCloseModal }
                 />
-                <Options 
-                    options={ this.state.options }
-                    handleDeleteOptions={ this.handleDeleteOptions }
-                    handleDeleteOption= { this.handleDeleteOption }
-                />
-                <AddOption handleAddOption={ this.handleAddOption }/>
             </div>
         );
     }

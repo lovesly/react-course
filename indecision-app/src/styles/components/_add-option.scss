@@ -9,6 +9,7 @@
 // Add Option
 .add-option {
     display: flex;
+    flex-direction: column;
     padding: $m-size;
 }
 
@@ -17,7 +18,22 @@
     flex: 1 1 0;
     border: none;
     border-bottom: .3rem solid darken($dark-blue, 10%);
-    margin-right: $s-size;
-    padding-left: $s-size;
+    margin: 0 0 $s-size 0;
+    padding: $s-size;
     color: $off-white;
 }
+
+// modile device
+@media (min-width: $desktop-breakpoint) {
+    * {
+        color: lightcoral;
+    }
+    
+    .add-option {
+        flex-direction: row;
+    }
+
+    .add-option__input {
+        margin: 0 $s-size 0 0;
+    }
+} 

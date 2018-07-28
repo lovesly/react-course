@@ -1,20 +1,22 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { removeExpense } from '../actions/expenses';
+import { Link } from 'react-router-dom';
 
 // where the fuck does dispatch come from?
-const ExpenseListItem = ({ description, amount, createdAt, id, dispatch }) => (
+const ExpenseListItem = ({ description, amount, createdAt, id }) => (
     <div>
-        <h3>{ description }</h3>
+        <Link to={ `/edit/${ id }` }>
+            <h3>{ description }</h3>
+        </Link>
         <p>{ amount } - { createdAt }</p>
         <button onClick={() => {
-            dispatch(removeExpense({ id }));
-        }}>Remove</button>
+            // what if I don't want to use link, I just like an edit button??? 
+            // how can I access router here???
+        }}>Edit</button>
     </div>
 );
 
 // if no mapStateToProps, how can we pass the params??
-export default connect()(ExpenseListItem);
+export default ExpenseListItem;
 
 
 

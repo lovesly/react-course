@@ -8,11 +8,14 @@ const now = moment();
 console.log(now.format('MMM Do, YYYY'));
 
 export default class ExpenseForm extends React.Component {
+    // since we are using transform-class-properties, so we don't have to use 
+    // constructor to access this.props.
+    // what is the benifits to transform number to string??
     state = {
-        description: '',
-        note: '',
-        amount: '',
-        createdAt: moment(),
+        description: this.props.expense ? this.props.expense.description : '',
+        note: this.props.expense ? this.props.expense.note : '',
+        amount: this.props.expense ? (this.props.expense.amount / 100).toString() : '',
+        createdAt: this.props.expense ? moment(this.props.expense.amount) : moment(),
         calenderfocused: false,
         error: '',
     };
@@ -50,7 +53,7 @@ export default class ExpenseForm extends React.Component {
             this.setState(() => ({ error: '' }));
             this.props.onSubmit({
                 description: this.state.description,
-                amount: parseFloat(this.state.amount, 10) * 10,                
+                amount: parseFloat(this.state.amount, 10) * 100,                
                 createdAt: this.state.createdAt.valueOf(),
                 note: this.state.note,
             });

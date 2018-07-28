@@ -10,11 +10,11 @@ import 'normalize.css/normalize.css';
 import './styles/styles.scss';
 
 const store = configureStore();
-store.subscribe(() => {
-    const state = store.getState();
-    const visibleExpenses = getVisibleExpenses(state.expenses, state.filters);
-    console.log(visibleExpenses);
-});
+// store.subscribe(() => {
+//     const state = store.getState();
+//     const visibleExpenses = getVisibleExpenses(state.expenses, state.filters);
+//     console.log(visibleExpenses);
+// });
 const expenseOne = store.dispatch(addExpense({
     description: 'Rent',
     amount: 100,
@@ -32,13 +32,6 @@ const expenseThree = store.dispatch(addExpense({
     amount: 500,
     createdAt: 750,
 }));
-
-//
-setTimeout(() => {
-    store.dispatch(setTextFilter('Condom'));
-}, 3000);
-
-store.dispatch(setTextFilter('rent'));
 
 const jsx = (
     <Provider store={ store }>

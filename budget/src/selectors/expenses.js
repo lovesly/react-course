@@ -8,6 +8,7 @@ export default (expenses, { text, sortBy, startDate, endDate }) => {
         let textMatch = el.description.toLowerCase().includes(text.toLowerCase());
         return startMatch && endMatch && textMatch;
     }).sort((a, b) => {
+        // what if I want to add a flag to indicate the decreasing order?
         if (sortBy === 'date') {
             // consider undefined?
             return a.createdAt - b.createdAt;

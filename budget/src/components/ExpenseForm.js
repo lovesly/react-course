@@ -4,8 +4,8 @@ import 'react-dates/initialize';
 import { SingleDatePicker } from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
 
-const now = moment();
-console.log(now.format('MMM Do, YYYY'));
+// const now = moment();
+// console.log(now.format('MMM Do, YYYY'));
 
 export default class ExpenseForm extends React.Component {
     // since we are using transform-class-properties, so we don't have to use 
@@ -15,8 +15,8 @@ export default class ExpenseForm extends React.Component {
         description: this.props.expense ? this.props.expense.description : '',
         note: this.props.expense ? this.props.expense.note : '',
         amount: this.props.expense ? (this.props.expense.amount / 100).toString() : '',
-        createdAt: this.props.expense ? moment(this.props.expense.amount) : moment(),
-        calenderfocused: false,
+        createdAt: this.props.expense ? moment(this.props.expense.createdAt) : moment(),
+        calenderFocused: null,
         error: '',
     };
     onDescriptionChagne = (e) => {
@@ -42,7 +42,7 @@ export default class ExpenseForm extends React.Component {
         }
     };
     onFocusChange = ({ focused }) => {
-        this.setState(() => ({ calenderfocused: focused }));
+        this.setState(() => ({ calenderFocused: focused }));
     };
     onSubmit = (e) => {
         e.preventDefault();
@@ -80,7 +80,7 @@ export default class ExpenseForm extends React.Component {
                     <SingleDatePicker 
                         date={ this.state.createdAt }
                         onDateChange={ this.onDateChange }
-                        focused={ this.state.calenderfocused }
+                        focused={ this.state.calenderFocused }
                         onFocusChange={ this.onFocusChange }
                         numberOfMonths={ 1 }
                         isOutsideRange={ () => false }

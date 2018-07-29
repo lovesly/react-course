@@ -1,8 +1,10 @@
+import moment from 'moment';
+
 const defaultFilterState = {
     text: '',
     sortBy: 'date',
-    startDate: undefined,
-    endDate: undefined,
+    startDate: moment().startOf('month'),
+    endDate: moment().endOf('month'),
 };
 export default (state = defaultFilterState, action) => {
     switch (action.type) {

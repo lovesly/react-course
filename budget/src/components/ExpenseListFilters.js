@@ -3,19 +3,35 @@ import { connect } from 'react-redux';
 import { DateRangePicker } from 'react-dates';
 import { setTextFilter, sortByDate, sortByAmount, setStart, setEnd } from '../actions/filters';
 
-class ExpenseListFilter extends React.Component {
+export class ExpenseListFilter extends React.Component {
     // why we use null here, and false in another place??
     // old question when will this.props be initialized?
     state = {
         calenderFocused: null,
     };
     onDatesChange = ({ startDate, endDate }) => {
-        this.props.dispatch(setStart(startDate));
-        this.props.dispatch(setEnd(endDate));
+        this.props.setStart(startDate);
+        this.props.setEnd(endDate);
     };
     onFocusChange = (focused) => {
         this.setState(() => ({ calenderFocused: focused }));
-    }
+    };
+    onTextChange = (e) => {
+        this.props.setTextFilter(e.target.value);
+    };
+    onSortChange = (e) => {
+        console.log(e.target.value);
+        switch (e.target.value) {
+            case 'date':
+                this.props.sortByDate();
+                break;
+            case 'amount':
+                this.props.sortByAmount();
+                break;
+            default: 
+                this.props.sortByDate();
+        }
+    };
     render() {
         return (
             <div>
@@ -23,24 +39,10 @@ class ExpenseListFilter extends React.Component {
                 <input 
                     type='text' 
                     value={ this.props.filters.text } 
-                    onChange={(e) => {
-                        this.props.dispatch(setTextFilter(e.target.value));
-                    }}
+                    onChange={ this.onTextChange }
                 />
                 <select value={ this.props.filters.sortBy } 
-                        onChange={(e) => {
-                            console.log(e.target.value);
-                            switch (e.target.value) {
-                                case 'date':
-                                    this.props.dispatch(sortByDate());
-                                    break;
-                                case 'amount':
-                                    this.props.dispatch(sortByAmount());
-                                    break;
-                                default: 
-                                    this.props.dispatch(sortByDate());
-                            }
-                        }}
+                        onChange={ this.onSortChange }
                 >
                     <option value="date">Date</option>
                     <option value="amount">Amount</option>
@@ -68,4 +70,12 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps)(ExpenseListFilter);
+const mapDispatchToProps = (dispatch) => ({ 
+    setTextFilter: (text) => dispatch(setTextFilter(text)),
+    sortByDate: () => dispatch(sortByDate),
+    sortByAmount: () => dispatch(sortByAmount),
+    setStart: (startDate) => dispatch(setStart(startDate)),
+    setEnd: (endDate) => dispatch(setEnd(endDate)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ExpenseListFilter);

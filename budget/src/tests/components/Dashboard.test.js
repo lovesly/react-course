@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 import Dashboard from '../../components/Dashboard';
 
 
-test(`should render expenselist with expenses`, () => {
+test(`should render dashboard correctly`, () => {
     const wrapper = shallow(<Dashboard />);
     expect(wrapper).toMatchSnapshot();
 });

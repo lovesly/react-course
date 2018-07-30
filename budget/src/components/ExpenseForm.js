@@ -2,10 +2,6 @@ import React from 'react';
 import moment from 'moment';
 import 'react-dates/initialize';
 import { SingleDatePicker } from 'react-dates';
-import 'react-dates/lib/css/_datepicker.css';
-
-// const now = moment();
-// console.log(now.format('MMM Do, YYYY'));
 
 export default class ExpenseForm extends React.Component {
     // since we are using transform-class-properties, so we don't have to use 

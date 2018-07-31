@@ -31,5 +31,5 @@ test(`should handle onClick corretly`, () => {
     // wrapper.find('button').prop('onClick')();
     wrapper.find('button').simulate('click');
     expect(history.push).toHaveBeenLastCalledWith('/');
-    expect(removeExpense).toHaveBeenCalled();         
+    expect(removeExpense).toHaveBeenLastCalledWith(expenses[0].id);         
 });

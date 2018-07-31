@@ -11,7 +11,7 @@ export class EditPage extends React.Component {
         this.props.history.push('/');
     };
     onClick = () => {
-        this.props.removeExpense();
+        this.props.removeExpense(this.props.expense.id);
         this.props.history.push('/');
     };
     render() {
@@ -33,9 +33,10 @@ const mapStateToProps = (state, props) => {
     };
 };
 
+// in real env, props is not defined??
 const mapDispatchToProps = (dispatch) => ({ 
     editExpense: (id, expense) => dispatch(editExpense(id, expense)),
-    removeExpense: () => dispatch(removeExpense({ id: props.expense.id })),
+    removeExpense: (id) => dispatch(removeExpense({ id })),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditPage);

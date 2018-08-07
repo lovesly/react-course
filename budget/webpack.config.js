@@ -1,6 +1,8 @@
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
+// const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 // is NODE_ENV mutable? can we have another name for it?
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
@@ -54,6 +56,8 @@ module.exports = (env) => {
                 'process.env.FIREBASE_MESSAGING_SENDER_ID': JSON.stringify(process.env.FIREBASE_MESSAGING_SENDER_ID),
             }),
             new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+            // new webpack.optimize.UglifyJsPlugin({sourceMap: true, minimize: true, output: {comments: false}}),
+            // new BundleAnalyzerPlugin(),
         ],
         devtool: isProduction ? 'source-map' : 'inline-source-map',
         devServer: {

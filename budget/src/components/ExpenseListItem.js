@@ -5,19 +5,15 @@ import numeral from 'numeral';
 
 // where the fuck does dispatch come from?
 export const ExpenseListItem = ({ description, amount, createdAt, id }) => (
-    <div>
-        <Link to={ `/edit/${ id }` }>
-            <h3>{ description }</h3>
+        <Link to={ `/edit/${ id }` } className="list-item">
+            <div>
+                <h3 className="list-item__title">{ description }</h3>
+                <span className="list-item__sub-title">{ moment(createdAt).format('MMMM Do, YYYY') }</span>
+            </div>
+            <h3 className="list-item__data">
+                { numeral(amount/100).format('$0,0.00') } 
+            </h3>
         </Link>
-        <p>
-            { numeral(amount/100).format('$0,0.00') } 
-            - 
-            { moment(createdAt).format('MMMM Do, YYYY') }</p>
-        <button onClick={() => {
-            // what if I don't want to use link, I just like an edit button??? 
-            // how can I access router here???
-        }}>Edit</button>
-    </div>
 );
 
 // if no mapStateToProps, how can we pass the params??

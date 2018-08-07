@@ -21,10 +21,10 @@ export const startLogin = () => {
         return firebase.auth().signInWithPopup(googleAuthProvider).then(function(result) {
             // This gives you a Google Access Token.
             var token = result.credential.accessToken;
-            console.log(token);
+            // console.log(token);
             // The signed-in user info.
             var user = result.user;
-            console.log(user);
+            // console.log(user);
         });
     };
 };

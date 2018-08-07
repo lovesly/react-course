@@ -13,7 +13,7 @@ export const PrivateRoute = ({
     // react 里参数是如何生成/传递的？
     // 原本自动传递的参数， 现在需要手动， 原理是？
     <Route {...rest} component={(props) => {
-        console.log(props);
+        // console.log(props);
         return (
             isAuthenticated ? (
                 <div>

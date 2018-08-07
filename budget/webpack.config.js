@@ -7,7 +7,6 @@ const webpack = require('webpack');
 // is NODE_ENV mutable? can we have another name for it?
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
-// what about production??
 if (process.env.NODE_ENV === 'test') {
     require('dotenv').config({ path: '.env.test' });
 } else if (process.env.NODE_ENV === 'development') {
@@ -18,7 +17,7 @@ module.exports = (env) => {
     const isProduction = env === 'production';
     const CSSExtract = new ExtractTextPlugin('style.css');
     return {
-        entry: './src/app.js',
+        entry: ['babel-polyfill', './src/app.js'],
         output: {
             path: path.join(__dirname, 'public', 'dist'),
             filename: 'bundle.js'
